@@ -13,9 +13,9 @@ export const PROJECT_ATTRIBUTE = {
 /** Attribute key used to mark blog post entities. */
 export const ENTITY_TYPE_KEY = "entityType";
 /** Entity type marker for a BigBeautifulBlog blog entry. */
-export const ENTITY_TYPE_POST = "big-beautiful-blog-entry";
+export const ENTITY_TYPE_POST = "big_beautiful_blog_entry";
 /** Entity type marker for a BigBeautifulBlog reaction. */
-export const ENTITY_TYPE_REACTION = "big-beautiful-blog-reaction";
+export const ENTITY_TYPE_REACTION = "big_beautiful_blog_reaction";
 
 /** Numeric attribute used to sort posts by creation date. */
 export const CREATED_AT_KEY = "createdAt";
@@ -29,10 +29,10 @@ export const UPDATED_AT_KEY = "updatedAt";
  * anyone can query reactions for a specific post without needing to
  * know the reaction's entity key.
  *
- * Example: `big-beautiful-blog-post-reaction-0xabc…`
+ * Example: `big_beautiful_blog_post_reaction_0xabc…`
  */
 export function reactionAttributeKey(postId: string): string {
-  return `big-beautiful-blog-post-reaction-${postId.toLowerCase()}`;
+  return `big_beautiful_blog_post_reaction_${postId.toLowerCase()}`;
 }
 
 /**

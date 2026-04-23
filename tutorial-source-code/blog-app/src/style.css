@@ -429,3 +429,66 @@ button.danger:hover:not(:disabled) {
   color: var(--muted);
   word-break: break-all;
 }
+
+.reactions {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.reaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.reaction-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.reaction-button:hover:not(:disabled) {
+  background: var(--card);
+  border-color: var(--primary);
+}
+
+.reaction-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.reaction-button.reaction-mine {
+  background: #eef2ff;
+  border-color: var(--primary);
+}
+
+.reaction-emoji {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.reaction-count {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-width: 0.75rem;
+  text-align: right;
+}
+
+.reaction-hint {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}

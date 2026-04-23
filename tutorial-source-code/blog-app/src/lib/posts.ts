@@ -12,7 +12,7 @@ import {
 import { createArkivClients, publicClient } from "./wallet";
 
 export interface BlogPost {
-  /** Arkiv entity key — stable unique identifier. */
+  /** Arkiv entity key — stable unique identifier (the post id). */
   entityKey: `0x${string}`;
   title: string;
   content: string;
@@ -21,6 +21,9 @@ export interface BlogPost {
   /** Unix epoch ms of last edit (or createdAt if never edited). */
   updatedAt: number;
 }
+
+/** Backwards-compatible alias — a BigBeautifulBlog entry is a BlogPost. */
+export type BigBeautifulBlogEntry = BlogPost;
 
 interface BlogPostPayload {
   title: string;

@@ -1,17 +1,31 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { deletePost, updatePost, type BlogPost } from "../lib/posts";
+import { groupReactionsByPost, type BlogReaction } from "../lib/reactions";
 import { PostBodyEditor } from "./PostBodyEditor";
 import { PostContent } from "./PostContent";
+import { Reactions } from "./Reactions";
 
 interface PostListProps {
   posts: BlogPost[];
+  reactions: BlogReaction[];
   account: `0x${string}` | null;
   isAdmin: boolean;
   onChanged: () => void | Promise<void>;
 }
 
-export function PostList({ posts, account, isAdmin, onChanged }: PostListProps) {
+export function PostList({
+  posts,
+  reactions,
+  account,
+  isAdmin,
+  onChanged,
+}: PostListProps) {
+  const reactionsByPost = useMemo(
+    () => groupReactionsByPost(reactions),
+    [reactions],
+  );
+
   if (posts.length === 0) {
     return <p className="hint">No posts yet.</p>;
   }
@@ -22,6 +36,7 @@ export function PostList({ posts, account, isAdmin, onChanged }: PostListProps) 
         <PostItem
           key={post.entityKey}
           post={post}
+          reactions={reactionsByPost.get(post.entityKey.toLowerCase()) ?? []}
           account={account}
           isAdmin={isAdmin}
           onChanged={onChanged}
@@ -33,12 +48,19 @@ export function PostList({ posts, account, isAdmin, onChanged }: PostListProps) 
 
 interface PostItemProps {
   post: BlogPost;
+  reactions: BlogReaction[];
   account: `0x${string}` | null;
   isAdmin: boolean;
   onChanged: () => void | Promise<void>;
 }
 
-function PostItem({ post, account, isAdmin, onChanged }: PostItemProps) {
+function PostItem({
+  post,
+  reactions,
+  account,
+  isAdmin,
+  onChanged,
+}: PostItemProps) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
@@ -145,6 +167,12 @@ function PostItem({ post, account, isAdmin, onChanged }: PostItemProps) {
           <div className="post-body">
             <PostContent content={post.content} />
           </div>
+          <Reactions
+            postId={post.entityKey}
+            reactions={reactions}
+            account={account}
+            onChanged={onChanged}
+          />
           {error && <div className="error-banner">{error}</div>}
           {isAdmin && (
             <div className="form-actions">

@@ -17,6 +17,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Base URL path the apps are served from on GitHub Pages.
+      # Change this here if the repo (and therefore the Pages URL) is renamed.
+      PAGES_BASE_PATH: /arkiv-blog-challenge
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v5
@@ -32,14 +36,14 @@ jobs:
         run: npm install
       - name: Build tutorial sketch app
         working-directory: tutorial-source-code/metamask-tutorial
-        run: npm run build -- --base=/arkiv-blog-challenge/sketch/
+        run: npm run build -- --base=${{ env.PAGES_BASE_PATH }}/sketch/
 
       - name: Install blog app dependencies
         working-directory: tutorial-source-code/blog-app
         run: npm install
       - name: Build blog app
         working-directory: tutorial-source-code/blog-app
-        run: npm run build -- --base=/arkiv-blog-challenge/blog/
+        run: npm run build -- --base=${{ env.PAGES_BASE_PATH }}/blog/
 
       - name: Assemble combined Pages artifact
         run: |

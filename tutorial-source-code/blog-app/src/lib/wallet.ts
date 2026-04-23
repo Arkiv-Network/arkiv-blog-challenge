@@ -4,18 +4,38 @@ import {
   custom,
   http,
 } from "@arkiv-network/sdk";
-import { kaolin } from "@arkiv-network/sdk/chains";
+import { defineChain } from "viem";
 import "viem/window";
 
 /**
- * Switch MetaMask to the Kaolin Arkiv testnet, adding it if necessary.
+ * Arkiv Oplimit network configuration.
  */
-async function switchToKaolinChain(): Promise<void> {
+const oplimit = defineChain({
+  id: 60138453077,
+  name: "Oplimit",
+  network: "oplimit",
+  nativeCurrency: {
+    name: "Ethereum",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://oplimit.hoodi.arkiv.network/rpc"],
+    },
+  },
+  testnet: true,
+});
+
+/**
+ * Switch MetaMask to the Oplimit Arkiv testnet, adding it if necessary.
+ */
+async function switchToOplimitChain(): Promise<void> {
   if (!window.ethereum) {
     throw new Error("MetaMask is not installed");
   }
 
-  const chainIdHex = `0x${kaolin.id.toString(16)}`;
+  const chainIdHex = `0x${oplimit.id.toString(16)}`;
 
   try {
     await window.ethereum.request({
@@ -35,10 +55,9 @@ async function switchToKaolinChain(): Promise<void> {
         params: [
           {
             chainId: chainIdHex,
-            chainName: kaolin.name,
-            nativeCurrency: kaolin.nativeCurrency,
-            rpcUrls: kaolin.rpcUrls.default.http,
-            blockExplorerUrls: [kaolin.blockExplorers.default.url],
+            chainName: oplimit.name,
+            nativeCurrency: oplimit.nativeCurrency,
+            rpcUrls: oplimit.rpcUrls.default.http,
           },
         ],
       });
@@ -49,7 +68,7 @@ async function switchToKaolinChain(): Promise<void> {
 }
 
 /**
- * Prompt the user to connect their MetaMask wallet and switch to Kaolin.
+ * Prompt the user to connect their MetaMask wallet and switch to Oplimit.
  * Returns the connected account address.
  */
 export async function connectWallet(): Promise<`0x${string}`> {
@@ -57,7 +76,7 @@ export async function connectWallet(): Promise<`0x${string}`> {
     throw new Error("MetaMask is not installed");
   }
 
-  await switchToKaolinChain();
+  await switchToOplimitChain();
 
   const accounts = (await window.ethereum.request({
     method: "eth_requestAccounts",
@@ -76,7 +95,7 @@ export async function connectWallet(): Promise<`0x${string}`> {
  */
 export function createArkivClients(account?: `0x${string}`) {
   const publicClient = createPublicClient({
-    chain: kaolin,
+    chain: oplimit,
     transport: http(),
   });
 
@@ -85,7 +104,7 @@ export function createArkivClients(account?: `0x${string}`) {
   }
 
   const walletClient = createWalletClient({
-    chain: kaolin,
+    chain: oplimit,
     transport: custom(window.ethereum),
     account,
   });
@@ -95,6 +114,6 @@ export function createArkivClients(account?: `0x${string}`) {
 
 /** Public (read-only) Arkiv client. Safe to call from anywhere. */
 export const publicClient = createPublicClient({
-  chain: kaolin,
+  chain: oplimit,
   transport: http(),
 });

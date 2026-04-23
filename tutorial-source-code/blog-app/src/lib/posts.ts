@@ -33,12 +33,13 @@ interface BlogPostPayload {
 }
 
 /**
- * Load all blog posts owned by the admin wallet, sorted by the
+ * Load all blog posts created by the admin wallet, sorted by the
  * `createdAt` numeric attribute (newest first).
  *
- * We filter by `.ownedBy(ADMIN_ADDRESS)` so that only posts authored by
+ * We filter by `.createdBy(ADMIN_ADDRESS)` so that only posts authored by
  * the trusted admin wallet are shown — this prevents anyone else from
- * injecting fake posts using our project attribute.
+ * injecting fake posts using our project attribute, and keeps edited posts
+ * visible even if entity ownership changes later.
  */
 export async function loadPosts(): Promise<BlogPost[]> {
   const result = await publicClient
@@ -47,11 +48,12 @@ export async function loadPosts(): Promise<BlogPost[]> {
       eq(PROJECT_ATTRIBUTE.key, PROJECT_ATTRIBUTE.value),
       eq(ENTITY_TYPE_KEY, ENTITY_TYPE_POST),
     ])
-    // Filter to entities owned by the admin wallet. The admin is the only
+    // Filter to entities created by the admin wallet. The admin is the only
     // wallet authorised to create entities through this app, so this acts
     // as a trusted-source filter — no other wallet can inject fake posts
-    // even if they attach the same project attribute.
-    .ownedBy(ADMIN_ADDRESS)
+    // even if they attach the same project attribute. Using creator instead
+    // of owner keeps posts queryable after edits.
+    .createdBy(ADMIN_ADDRESS)
     .orderBy(desc(CREATED_AT_KEY, "number"))
     .withPayload(true)
     .withMetadata(true)

@@ -59,7 +59,7 @@ export function App() {
     <div className="app">
       <header className="app-header">
         <div>
-          <h1>BigBeautifulBlog</h1>
+          <h1>One Big Beautiful Blog</h1>
           <p className="subtitle">Make Blogging Great Again</p>
         </div>
         <div className="account-area">

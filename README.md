@@ -15,11 +15,15 @@ Visit `http://localhost:4321`
 
 The site is automatically deployed to GitHub Pages on push to `main`.
 
-- **Tutorial sketch app**: https://arkiv-network.github.io/learn-arkiv/
+- **Landing page**: https://arkiv-network.github.io/arkiv-blog-challenge/
+- **Arkiv blog app**: https://arkiv-network.github.io/arkiv-blog-challenge/blog/
+- **Tutorial sketch app**: https://arkiv-network.github.io/arkiv-blog-challenge/sketch/
 
 ### Configuration
 
-The GitHub Pages workflow builds and publishes only the tutorial sketch app from `tutorial-source-code/metamask-tutorial`.
+The GitHub Pages workflow builds and publishes both the Vite + React blog app
+(`tutorial-source-code/blog-app`) and the tutorial sketch app
+(`tutorial-source-code/metamask-tutorial`) into a single Pages artifact.
 
 ## Framework documentation
 

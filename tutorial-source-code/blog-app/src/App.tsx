@@ -3,12 +3,14 @@ import { useCallback, useEffect, useState } from "react";
 import { ADMIN_ADDRESS, isAdminAddress } from "./lib/arkiv";
 import { connectWallet } from "./lib/wallet";
 import { loadPosts, type BlogPost } from "./lib/posts";
+import { loadAllReactions, type BlogReaction } from "./lib/reactions";
 import { PostList } from "./components/PostList";
 import { PostEditor } from "./components/PostEditor";
 
 export function App() {
   const [account, setAccount] = useState<`0x${string}` | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [reactions, setReactions] = useState<BlogReaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
@@ -19,8 +21,14 @@ export function App() {
     setLoading(true);
     setError(null);
     try {
-      const fetched = await loadPosts();
-      setPosts(fetched);
+      // After downloading all posts, query Arkiv for all public
+      // reactions so the two lists can be joined client-side.
+      const [fetchedPosts, fetchedReactions] = await Promise.all([
+        loadPosts(),
+        loadAllReactions(),
+      ]);
+      setPosts(fetchedPosts);
+      setReactions(fetchedReactions);
     } catch (err) {
       console.error("Failed to load posts", err);
       setError((err as Error).message ?? "Failed to load posts");
@@ -51,10 +59,8 @@ export function App() {
     <div className="app">
       <header className="app-header">
         <div>
-          <h1>Arkiv Blog</h1>
-          <p className="subtitle">
-            A decentralized blog stored on the Arkiv Oplimit testnet.
-          </p>
+          <h1>BigBeautifulBlog</h1>
+          <p className="subtitle">Make Blogging Great Again</p>
         </div>
         <div className="account-area">
           {account ? (
@@ -92,8 +98,8 @@ export function App() {
 
       {account && !isAdmin && (
         <p className="hint">
-          Connected wallet is not the admin. You can read posts but cannot
-          edit them.
+          Connected wallet is not the admin. You can read posts and add
+          reactions, but cannot edit them.
         </p>
       )}
 
@@ -113,6 +119,7 @@ export function App() {
         ) : (
           <PostList
             posts={posts}
+            reactions={reactions}
             account={account}
             isAdmin={isAdmin}
             onChanged={refresh}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import { deletePost, updatePost, type BlogPost } from "../lib/posts";
+import { PostBodyEditor } from "./PostBodyEditor";
+import { PostContent } from "./PostContent";
 
 interface PostListProps {
   posts: BlogPost[];
@@ -42,6 +44,7 @@ function PostItem({ post, account, isAdmin, onChanged }: PostItemProps) {
   const [content, setContent] = useState(post.content);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [overLimit, setOverLimit] = useState(false);
 
   const startEdit = () => {
     setTitle(post.title);
@@ -107,19 +110,20 @@ function PostItem({ post, account, isAdmin, onChanged }: PostItemProps) {
           </label>
           <label>
             <span>Content</span>
-            <textarea
-              value={content}
-              onChange={(event) => setContent(event.target.value)}
-              required
-              rows={6}
-              maxLength={10000}
+            <PostBodyEditor
+              title={title}
+              content={content}
+              onContentChange={setContent}
+              createdAt={post.createdAt}
+              onSizeChange={({ overLimit }) => setOverLimit(overLimit)}
+              disabled={busy}
             />
           </label>
           {error && <div className="error-banner">{error}</div>}
           <div className="form-actions">
             <button
               type="submit"
-              disabled={busy || !title.trim() || !content.trim()}
+              disabled={busy || !title.trim() || !content.trim() || overLimit}
               className="primary"
             >
               {busy ? "Saving…" : "Save"}
@@ -139,9 +143,7 @@ function PostItem({ post, account, isAdmin, onChanged }: PostItemProps) {
             </small>
           </header>
           <div className="post-body">
-            {post.content.split("\n").map((line, i) => (
-              <p key={i}>{line}</p>
-            ))}
+            <PostContent content={post.content} />
           </div>
           {error && <div className="error-banner">{error}</div>}
           {isAdmin && (

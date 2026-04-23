@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { createPost } from "../lib/posts";
+import { PostBodyEditor } from "./PostBodyEditor";
 
 interface PostEditorProps {
   account: `0x${string}`;
@@ -15,6 +16,7 @@ export function PostEditor({ account, onSaved }: PostEditorProps) {
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [overLimit, setOverLimit] = useState(false);
 
   const reset = () => {
     setTitle("");
@@ -54,20 +56,21 @@ export function PostEditor({ account, onSaved }: PostEditorProps) {
         </label>
         <label>
           <span>Content</span>
-          <textarea
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-            placeholder="Write your post…"
-            required
-            rows={6}
-            maxLength={10000}
+          <PostBodyEditor
+            title={title}
+            content={content}
+            onContentChange={setContent}
+            onSizeChange={({ overLimit }) => setOverLimit(overLimit)}
+            disabled={submitting}
           />
         </label>
         {error && <div className="error-banner">{error}</div>}
         <div className="form-actions">
           <button
             type="submit"
-            disabled={submitting || !title.trim() || !content.trim()}
+            disabled={
+              submitting || !title.trim() || !content.trim() || overLimit
+            }
             className="primary"
           >
             {submitting ? "Publishing…" : "Publish"}

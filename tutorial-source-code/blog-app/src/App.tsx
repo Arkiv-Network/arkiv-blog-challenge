@@ -53,7 +53,7 @@ export function App() {
         <div>
           <h1>Arkiv Blog</h1>
           <p className="subtitle">
-            A decentralized blog stored on the Arkiv Kaolin testnet.
+            A decentralized blog stored on the Arkiv Oplimit testnet.
           </p>
         </div>
         <div className="account-area">
@@ -121,16 +121,7 @@ export function App() {
       </section>
 
       <footer className="app-footer">
-        <p>
-          Backend: Arkiv Kaolin testnet ·{" "}
-          <a
-            href="https://explorer.kaolin.hoodi.arkiv.network"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explorer
-          </a>
-        </p>
+        <p>Backend: Arkiv Oplimit testnet</p>
       </footer>
     </div>
   );

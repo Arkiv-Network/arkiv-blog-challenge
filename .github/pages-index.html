@@ -4,13 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arkiv Blog Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --arkiv-orange: #fe7446;
+        --arkiv-blue: #181ea9;
+      }
       body {
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
         margin: 0;
         padding: 3rem 1.5rem;
-        background: #f7f7fb;
-        color: #1a1a23;
+        background: #fbfaf8;
+        color: #1d1b17;
       }
       main {
         max-width: 640px;
@@ -18,6 +28,9 @@
       }
       h1 {
         margin-top: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: var(--arkiv-blue);
       }
       ul {
         list-style: none;
@@ -25,22 +38,23 @@
       }
       li {
         background: #fff;
-        border: 1px solid #e3e4ea;
+        border: 1px solid #e9e6de;
         border-radius: 8px;
         padding: 1rem 1.25rem;
         margin-bottom: 0.75rem;
       }
       a {
-        color: #4f46e5;
+        color: var(--arkiv-blue);
         text-decoration: none;
         font-weight: 600;
       }
       a:hover {
+        color: var(--arkiv-orange);
         text-decoration: underline;
       }
       p.desc {
         margin: 0.25rem 0 0;
-        color: #6a6c78;
+        color: #706a5e;
         font-size: 0.9rem;
       }
     </style>

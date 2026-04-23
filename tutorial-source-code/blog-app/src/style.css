@@ -1,16 +1,50 @@
+/* --- Arkiv brand fonts ---
+ * Body: IBM Plex Mono (loaded via Google Fonts in index.html)
+ * Headings: BrutalType (self-hosted, see brand guidelines at https://arkiv.network/brand)
+ */
+@font-face {
+  font-family: "BrutalType";
+  src: url("./assets/fonts/BrutalType-Medium.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BrutalType";
+  src: url("./assets/fonts/BrutalType-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --bg: #f7f7fb;
+  /* Arkiv brand palette (https://arkiv.network/brand) */
+  --arkiv-orange: #fe7446;
+  --arkiv-orange-hover: #e35a2c;
+  --arkiv-blue: #181ea9;
+  --arkiv-blue-hover: #131884;
+
+  /* Warm sand / stone / ink neutrals */
+  --bg: #fbfaf8;
   --card: #ffffff;
-  --border: #e3e4ea;
-  --text: #1a1a23;
-  --muted: #6a6c78;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
+  --border: #e9e6de;
+  --border-strong: #d5d1c6;
+  --text: #1d1b17;
+  --muted: #706a5e;
+  --primary: var(--arkiv-blue);
+  --primary-hover: var(--arkiv-blue-hover);
+  --accent: var(--arkiv-orange);
+  --accent-hover: var(--arkiv-orange-hover);
   --danger: #d1314b;
   --danger-hover: #a8273c;
   --error-bg: #fdecef;
   --error-border: #f3b6c0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --font-body: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: "BrutalType", ui-sans-serif, system-ui, sans-serif;
+
+  font-family: var(--font-body);
   color: var(--text);
   background: var(--bg);
 }
@@ -22,6 +56,19 @@
 body {
   margin: 0;
   background: var(--bg);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .app {
@@ -63,12 +110,12 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 999px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-body);
   font-size: 0.85rem;
 }
 
 .role-badge {
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-heading);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -77,28 +124,30 @@ body {
 }
 
 .role-admin {
-  background: #ecfccb;
-  color: #3f6212;
+  background: #ffe4d6;
+  color: #8a3210;
 }
 
 .role-user {
-  background: #e0e7ff;
-  color: #3730a3;
+  background: #ededfb;
+  color: var(--arkiv-blue);
 }
 
 button {
   font: inherit;
+  font-family: var(--font-body);
   padding: 0.5rem 0.95rem;
   border-radius: 6px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: var(--card);
   color: var(--text);
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 button:hover:not(:disabled) {
-  background: #f0f1f6;
+  background: #f6f4ef;
+  border-color: var(--accent);
 }
 
 button:disabled {
@@ -158,12 +207,20 @@ button.danger:hover:not(:disabled) {
 .post-form input,
 .post-form textarea {
   font: inherit;
+  font-family: var(--font-body);
   padding: 0.55rem 0.7rem;
   border-radius: 6px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: white;
   color: var(--text);
   resize: vertical;
+}
+
+.post-form input:focus,
+.post-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(24, 30, 169, 0.15);
 }
 
 .post-form textarea {
@@ -213,11 +270,23 @@ button.danger:hover:not(:disabled) {
 .post-body p {
   margin: 0 0 0.5rem;
   white-space: pre-wrap;
-  line-height: 1.45;
+  line-height: 1.55;
 }
 
 .post-body p:empty {
   height: 0.5rem;
+}
+
+.post-body a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-color: rgba(24, 30, 169, 0.35);
+  text-underline-offset: 2px;
+}
+
+.post-body a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .error-banner {
@@ -235,7 +304,7 @@ button.danger:hover:not(:disabled) {
 }
 
 .hint code {
-  background: #eef0f6;
+  background: #f6f4ef;
   padding: 0.1rem 0.35rem;
   border-radius: 4px;
   font-size: 0.85em;
@@ -252,6 +321,10 @@ button.danger:hover:not(:disabled) {
 
 .app-footer a {
   color: var(--primary);
+}
+
+.app-footer a:hover {
+  color: var(--accent);
 }
 
 /* --- Post body editor (drag & drop, size meter) --- */
@@ -281,9 +354,10 @@ button.danger:hover:not(:disabled) {
 
 .body-editor textarea {
   font: inherit;
+  font-family: var(--font-body);
   padding: 0.55rem 0.7rem;
   border-radius: 6px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: white;
   color: var(--text);
   resize: vertical;
@@ -292,9 +366,9 @@ button.danger:hover:not(:disabled) {
 }
 
 .body-editor textarea.drag-over {
-  border-color: var(--primary);
-  background: #eef0ff;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  border-color: var(--accent);
+  background: #fff3ec;
+  box-shadow: 0 0 0 3px rgba(254, 116, 70, 0.2);
 }
 
 .size-meter {
@@ -308,7 +382,7 @@ button.danger:hover:not(:disabled) {
 .size-meter-bar {
   width: 100%;
   height: 6px;
-  background: #eef0f6;
+  background: #f6f4ef;
   border-radius: 999px;
   overflow: hidden;
 }
@@ -320,11 +394,11 @@ button.danger:hover:not(:disabled) {
 }
 
 .size-meter.warn .size-meter-fill {
-  background: #d97706;
+  background: var(--accent);
 }
 
 .size-meter.warn small {
-  color: #92400e;
+  color: var(--accent-hover);
 }
 
 .size-meter.over .size-meter-fill {
@@ -374,7 +448,7 @@ button.danger:hover:not(:disabled) {
 }
 
 .social-card:hover {
-  border-color: var(--primary);
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -450,10 +524,11 @@ button.danger:hover:not(:disabled) {
   align-items: center;
   gap: 0.35rem;
   padding: 0.3rem 0.6rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: var(--bg);
   color: var(--text);
+  font-family: var(--font-body);
   font-size: 0.95rem;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
@@ -461,20 +536,20 @@ button.danger:hover:not(:disabled) {
 
 .reaction-button:hover:not(:disabled) {
   background: var(--card);
-  border-color: var(--primary);
+  border-color: var(--accent);
 }
 
 .reaction-button:disabled {
   cursor: not-allowed;
   opacity: 1;
-  background: #f0f1f6;
-  border-color: #d4d7e2;
+  background: #f6f4ef;
+  border-color: var(--border-strong);
   color: var(--muted);
 }
 
 .reaction-button.reaction-mine {
-  background: #eef2ff;
-  border-color: var(--primary);
+  background: #fff3ec;
+  border-color: var(--accent);
 }
 
 .reaction-emoji {

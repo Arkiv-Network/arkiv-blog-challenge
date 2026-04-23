@@ -466,7 +466,10 @@ button.danger:hover:not(:disabled) {
 
 .reaction-button:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 1;
+  background: #f0f1f6;
+  border-color: #d4d7e2;
+  color: var(--muted);
 }
 
 .reaction-button.reaction-mine {

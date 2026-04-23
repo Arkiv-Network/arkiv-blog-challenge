@@ -128,7 +128,7 @@ export function App() {
       </section>
 
       <footer className="app-footer">
-        <p>Backend: Arkiv Oplimit testnet</p>
+        <p>Backend: Arkiv Kaolin testnet</p>
       </footer>
     </div>
   );

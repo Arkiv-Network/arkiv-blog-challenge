@@ -1,7 +1,7 @@
 # Arkiv Blog
 
 Vite + React app demonstrating CRUD on top of the [Arkiv](https://arkiv.network)
-Oplimit testnet.
+Kaolin testnet.
 
 ## Roles
 
@@ -12,7 +12,7 @@ The connected wallet address determines what you can do:
 - **Anyone else (or no wallet connected at all)** — read-only view of posts
   authored by the admin.
 
-The admin's private key for the Oplimit testnet is provided at the repo root
+The admin's private key for the Kaolin testnet is provided at the repo root
 (`admin_key_tests.priv`). Import it into MetaMask to use the admin role.
 
 ## How it works

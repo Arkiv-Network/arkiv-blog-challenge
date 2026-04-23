@@ -31,11 +31,23 @@ jobs:
         run: npm install
       - name: Build tutorial sketch app
         working-directory: tutorial-source-code/metamask-tutorial
-        run: npm run build -- --base=/learn-arkiv/
-      - name: Upload tutorial sketch app artifact
+        run: npm run build -- --base=/${{ github.event.repository.name }}/tutorial/
+      - name: Install blog app dependencies
+        working-directory: blog-app
+        run: npm install
+      - name: Build blog app
+        working-directory: blog-app
+        run: npm run build -- --base=/${{ github.event.repository.name }}/
+      - name: Combine build output
+        run: |
+          mkdir -p site
+          cp -r blog-app/dist/. site/
+          mkdir -p site/tutorial
+          cp -r tutorial-source-code/metamask-tutorial/dist/. site/tutorial/
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: tutorial-source-code/metamask-tutorial/dist
+          path: site
 
   deploy:
     needs: build

@@ -20,31 +20,22 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v5
-      - name: Copy fullstack tutorial demo files to public directory
-        run: |
-          echo "Copying demo files to public directory..."
-          mkdir -p public/_demos/fullstack-tutorial
-          cp -r tutorial-source-code/fullstack-tutorial/frontend/* public/_demos/fullstack-tutorial/
-          echo "Demo files copied to public/_demos/fullstack-tutorial"
-          if [ -n "${{ secrets.DEMO_WALLET_ADDRESSES }}" ]; then
-            echo "Replacing USER_ADDRESS with configured address"
-            sed -i "s/const USER_ADDRESS = '0xYourAddressHere';/const USER_ADDRESS = '${{ secrets.DEMO_WALLET_ADDRESSES }}';/" public/_demos/fullstack-tutorial/script.js
-            echo "USER_ADDRESS replaced successfully"
-          else
-            echo "DEMO_WALLET_ADDRESSES not set, skipping replacement"
-          fi
-      - name: Build metamask tutorial and copy to public directory
-        run: |
-          echo "Building Metamask tutorial..."
-          mkdir -p public/_demos/metamask-tutorial
-          cd tutorial-source-code/metamask-tutorial
-          npm install
-          npm run build -- --base=/learn-arkiv/_demos/metamask-tutorial/
-          echo "Copying Metamask tutorial to public directory..."
-          cp -r dist/* ../../public/_demos/metamask-tutorial/
-          echo "Metamask tutorial copied to public/_demos/metamask-tutorial"
-      - name: Install, build, and upload your site
-        uses: withastro/action@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Install tutorial sketch app dependencies
+        working-directory: tutorial-source-code/metamask-tutorial
+        run: npm install
+      - name: Build tutorial sketch app
+        working-directory: tutorial-source-code/metamask-tutorial
+        run: npm run build -- --base=/learn-arkiv/
+      - name: Upload tutorial sketch app artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: tutorial-source-code/metamask-tutorial/dist
 
   deploy:
     needs: build

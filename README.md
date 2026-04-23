@@ -15,12 +15,11 @@ Visit `http://localhost:4321`
 
 The site is automatically deployed to GitHub Pages on push to `main`.
 
-- **Docs**: https://arkiv-network.github.io/learn-arkiv/
-- **Fullstack tutorial live demo**: https://arkiv-network.github.io/learn-arkiv/_demos/fullstack-tutorial/
+- **Tutorial sketch app**: https://arkiv-network.github.io/learn-arkiv/
 
 ### Configuration
 
-Live demos are built and copied to the `_demos` folder during the github pages build step. The wallet addresses used in the demos can be configured by setting the `DEMO_WALLET_ADDRESSES` environment variable in the GitHub repository settings.
+The GitHub Pages workflow builds and publishes only the tutorial sketch app from `tutorial-source-code/metamask-tutorial`.
 
 ## Framework documentation
 
